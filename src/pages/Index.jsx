@@ -9,11 +9,11 @@ const Index = () => {
   const { colorMode, toggleColorMode } = useColorMode();
 
   useEffect(() => {
-    const fetchTopStories = async () => {
+    const fetchNewestStories = async () => {
       try {
-        const response = await fetch("https://hacker-news.firebaseio.com/v0/topstories.json");
-        const topStoryIds = await response.json();
-        const top5StoryIds = topStoryIds.slice(0, 5);
+        const response = await fetch("https://hacker-news.firebaseio.com/v0/newstories.json");
+        const newStoryIds = await response.json();
+        const top5StoryIds = newStoryIds.slice(0, 5);
 
         const storyPromises = top5StoryIds.map(async (id) => {
           const storyResponse = await fetch(`https://hacker-news.firebaseio.com/v0/item/${id}.json`);
@@ -24,11 +24,11 @@ const Index = () => {
         setStories(stories);
         setFilteredStories(stories);
       } catch (error) {
-        console.error("Error fetching top stories:", error);
+        console.error("Error fetching newest stories:", error);
       }
     };
 
-    fetchTopStories();
+    fetchNewestStories();
   }, []);
 
   useEffect(() => {
@@ -41,7 +41,7 @@ const Index = () => {
   return (
     <Container centerContent maxW="container.md" py={8}>
       <HStack width="100%" justifyContent="space-between" mb={4}>
-        <Text fontSize="2xl">Hacker News Top Stories</Text>
+        <Text fontSize="2xl">Hacker News Newest Stories</Text>
         <IconButton
           aria-label="Toggle dark mode"
           icon={colorMode === "light" ? <FaMoon /> : <FaSun />}
